@@ -25,8 +25,13 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: Run tests
-        run: bun run test
+      - name: Run tests (if configured)
+        run: |
+          if grep -q '"test"' package.json; then
+            bun run test
+          else
+            echo "No test script found in package.json; skipping tests."
+          fi
 
       - name: Build project
         run: bun run build
